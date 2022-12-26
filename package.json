@@ -1,0 +1,23 @@
+{
+  "name": "node-file-manager",
+  "version": "1.0.0",
+  "description": "CLI File Manager using Node.js APIs.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vonubat/node-file-manager.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Vonubat <vonubat@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vonubat/node-file-manager/issues"
+  },
+  "homepage": "https://github.com/Vonubat/node-file-manager#readme"
+}
