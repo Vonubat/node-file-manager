@@ -1,8 +1,8 @@
 import path from 'path';
 import { createInterface } from 'readline/promises';
-import { brotli, files, hash, nwd, sysInfo } from 'readline/promises';
+import { brotli, files, hash, nwd, sysInfo } from './commands/index.js';
 import { getDirFromPath, isPathToFile, parseInput } from './helpers.js';
-import { MESSAGES } from './messages';
+import { MESSAGES } from './messages.js';
 
 export class App {
   constructor(rootDir) {
