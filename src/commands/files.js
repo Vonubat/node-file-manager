@@ -2,7 +2,6 @@ import { createReadStream, createWriteStream } from 'fs';
 import fs from 'fs/promises';
 import { pipeline } from 'stream/promises';
 import { checkThatExist, checkThatNotExist } from '../helpers.js';
-import { MESSAGES } from '../messages.js';
 
 const copyFile = async (pathToOldFile, pathToNewFile) => {
   await checkThatExist(pathToOldFile);
@@ -28,27 +27,22 @@ export const cat = async (pathToFile) => {
 
 export const add = async (newFileName) => {
   await fs.writeFile(newFileName, '', { flag: 'wx' });
-  console.log(MESSAGES.operationSuccessful);
 };
 
 export const rn = async (pathToFile, newPathToFile) => {
   await checkThatNotExist(newPathToFile);
   await fs.rename(pathToFile, newPathToFile);
-  console.log(MESSAGES.operationSuccessful);
 };
 
 export const cp = async (pathToOldFile, pathToNewFile) => {
   await copyFile(pathToOldFile, pathToNewFile);
-  console.log(MESSAGES.operationSuccessful);
 };
 
 export const rm = async (pathToFile) => {
   await removeFile(pathToFile);
-  console.log(MESSAGES.operationSuccessful);
 };
 
 export const mv = async (pathToOldFile, pathToNewFile) => {
   await copyFile(pathToOldFile, pathToNewFile);
   await removeFile(pathToOldFile);
-  console.log(MESSAGES.operationSuccessful);
 };

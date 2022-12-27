@@ -2,7 +2,6 @@ import { createReadStream, createWriteStream } from 'fs';
 import { pipeline } from 'stream/promises';
 import { createBrotliCompress, createBrotliDecompress } from 'zlib';
 import { checkThatExist, checkThatNotExist } from '../helpers.js';
-import { MESSAGES } from '../messages.js';
 
 const ACTIONS = {
   compress: 'compress',
@@ -21,7 +20,6 @@ const implementBrotli = async (pathToSrc, pathToDest, action) => {
   const destStream = createWriteStream(pathToDest);
 
   await pipeline(srcStream, brotli, destStream);
-  console.log(MESSAGES.operationSuccessful);
 };
 
 export const compress = async (...args) => {
