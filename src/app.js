@@ -125,4 +125,28 @@ export class App {
         return false;
     }
   }
+
+  async start() {
+    const rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    while (true) {
+      const input = await rl.question(
+        `You are currently in ${this._currentPath}\n`
+      );
+      const [command, ...args] = parseInput(input);
+      if (this.validate(command, args)) {
+        try {
+          await this[command](args);
+        } catch (error) {
+          // console.error(error);
+          console.log(MESSAGES.operationFailed);
+        }
+      } else {
+        console.log(MESSAGES.invalidInput);
+      }
+    }
+  }
 }
