@@ -11,9 +11,10 @@ export const ls = async (currentPath) => {
   const sortedDirList = dirList
     .sort((a, b) => a.isFile() - b.isFile())
     .filter((item) => !item.isSymbolicLink());
-  let result = [];
-  sortedDirList.forEach((el) => {
-    result.push({ Name: el.name, Type: el.isFile() ? 'file' : 'directory' });
-  });
+  const result = sortedDirList.map((el) => ({
+    Name: el.name,
+    Type: el.isFile() ? 'file' : 'directory',
+  }));
+
   console.table(result);
 };
