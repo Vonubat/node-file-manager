@@ -36,4 +36,32 @@ export class App {
     const newFileName = this._resolvePath(args[0]);
     await files.add(newFileName);
   }
+
+  async rn(args) {
+    const pathToFile = this._resolvePath(args[0]);
+    const dir = getDirFromPath(pathToFile);
+    const newPathToFile = path.resolve(dir, args[1]);
+    await files.rn(pathToFile, newPathToFile);
+  }
+
+  async cp(args) {
+    const pathToOldFile = this._resolvePath(args[0]);
+    const pathToNewFile = this._resolvePath(args[1]);
+    await files.cp(pathToOldFile, pathToNewFile);
+  }
+
+  async mv(args) {
+    const pathToOldFile = this._resolvePath(args[0]);
+    const pathToNewFile = this._resolvePath(args[1]);
+    await files.mv(pathToOldFile, pathToNewFile);
+  }
+
+  async rm(args) {
+    const pathToFile = this._resolvePath(args[0]);
+    await files.mv(pathToFile);
+  }
+
+  os(args) {
+    sysInfo(args[0]);
+  }
 }
