@@ -13,80 +13,80 @@ export class App {
     return path.resolve(this._currentPath, p);
   }
 
+  ['.exit']() {
+    process.exit();
+  }
+
   async up() {
     const pathToUpperDir = this._resolvePath('..');
     this._currentPath = await nwd.cd(pathToUpperDir);
-  }
-
-  async cd() {
-    const pathToDir = this._resolvePath(args[0]);
-    this._currentPath = await nwd.cd(pathToDir);
   }
 
   async ls() {
     await nwd.ls(this._currentPath);
   }
 
-  async cat(args) {
-    const pathToFile = this._resolvePath(args[0]);
+  os([flag]) {
+    sysInfo(flag);
+  }
+
+  async cd([src]) {
+    const pathToDir = this._resolvePath(src);
+    this._currentPath = await nwd.cd(pathToDir);
+  }
+
+  async cat([src]) {
+    const pathToFile = this._resolvePath(src);
     await files.cat(pathToFile);
   }
 
-  async add(args) {
-    const newFileName = this._resolvePath(args[0]);
+  async add([src]) {
+    const newFileName = this._resolvePath(src);
     await files.add(newFileName);
   }
 
-  async rn(args) {
-    const pathToFile = this._resolvePath(args[0]);
-    const dir = getDirFromPath(pathToFile);
-    const newPathToFile = path.resolve(dir, args[1]);
-    await files.rn(pathToFile, newPathToFile);
+  async rm([src]) {
+    const pathToFile = this._resolvePath(src);
+    await files.rm(pathToFile);
   }
 
-  async cp(args) {
-    const pathToOldFile = this._resolvePath(args[0]);
-    const pathToNewFile = this._resolvePath(args[1]);
-    await files.cp(pathToOldFile, pathToNewFile);
-  }
-
-  async mv(args) {
-    const pathToOldFile = this._resolvePath(args[0]);
-    const pathToNewFile = this._resolvePath(args[1]);
-    await files.mv(pathToOldFile, pathToNewFile);
-  }
-
-  async rm(args) {
-    const pathToFile = this._resolvePath(args[0]);
-    await files.mv(pathToFile);
-  }
-
-  os(args) {
-    sysInfo(args[0]);
-  }
-
-  async hash(args) {
-    const pathToFile = this._resolvePath(args[0]);
+  async hash([src]) {
+    const pathToFile = this._resolvePath([src]);
     await hash(pathToFile);
   }
 
-  async compress(args) {
-    const pathToSrc = this._resolvePath(args[0]);
-    const pathToDest = this._resolvePath(args[1]);
+  async rn([src, dest]) {
+    const pathToFile = this._resolvePath(src);
+    const dir = getDirFromPath(pathToFile);
+    const newPathToFile = path.resolve(dir, dest);
+    await files.rn(pathToFile, newPathToFile);
+  }
+
+  async cp([src, dest]) {
+    const pathToOldFile = this._resolvePath(src);
+    const pathToNewFile = this._resolvePath(dest);
+    await files.cp(pathToOldFile, pathToNewFile);
+  }
+
+  async mv([src, dest]) {
+    const pathToOldFile = this._resolvePath(src);
+    const pathToNewFile = this._resolvePath(dest);
+    await files.mv(pathToOldFile, pathToNewFile);
+  }
+
+  async compress([src, dest]) {
+    const pathToSrc = this._resolvePath(src);
+    const pathToDest = this._resolvePath(dest);
     await brotli.compress(pathToSrc, pathToDest);
   }
 
-  async decompress(args) {
-    const pathToSrc = this._resolvePath(args[0]);
-    const pathToDest = this._resolvePath(args[1]);
+  async decompress([src, dest]) {
+    const pathToSrc = this._resolvePath(src);
+    const pathToDest = this._resolvePath(dest);
     await brotli.decompress(pathToSrc, pathToDest);
   }
 
-  ['.exit']() {
-    process.exit();
-  }
-
-  validate(command, args) {
+  validate(command, [src, dest]) {
     switch (command) {
       case 'up':
       case 'ls':
@@ -99,7 +99,7 @@ export class App {
       case 'os':
       case 'hash':
       case 'cat':
-        if (args[0]) {
+        if (src) {
           return true;
         }
 
@@ -107,17 +107,17 @@ export class App {
       case 'cp':
       case 'compress':
       case 'decompress':
-        if (args[0] && args[1]) {
+        if (src && dest) {
           return true;
         }
 
       case 'add':
-        if (args[0] && isPathToFile(args[0])) {
+        if (src && isPathToFile(src)) {
           return true;
         }
 
       case 'rn':
-        if (args[0] && args[1] && isPathToFile(args[1])) {
+        if (src && dest && isPathToFile(dest)) {
           return true;
         }
 
@@ -140,6 +140,7 @@ export class App {
       if (this.validate(command, args)) {
         try {
           await this[command](args);
+          console.log(MESSAGES.operationSuccessful);
         } catch (error) {
           // console.error(error);
           console.log(MESSAGES.operationFailed);

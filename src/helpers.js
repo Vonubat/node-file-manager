@@ -52,5 +52,5 @@ export const checkIsNotFile = async (path) => {
 };
 
 export const getDirFromPath = (filePath) => {
-  return path.parse(filePath).dir;
+  return path.dirname(filePath);
 };
