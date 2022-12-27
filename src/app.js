@@ -64,4 +64,21 @@ export class App {
   os(args) {
     sysInfo(args[0]);
   }
+
+  async hash(args) {
+    const pathToFile = this._resolvePath(args[0]);
+    await hash(pathToFile);
+  }
+
+  async compress(args) {
+    const pathToSrc = this._resolvePath(args[0]);
+    const pathToDest = this._resolvePath(args[1]);
+    await brotli.compress(pathToSrc, pathToDest);
+  }
+
+  async decompress(args) {
+    const pathToSrc = this._resolvePath(args[0]);
+    const pathToDest = this._resolvePath(args[1]);
+    await brotli.decompress(pathToSrc, pathToDest);
+  }
 }
