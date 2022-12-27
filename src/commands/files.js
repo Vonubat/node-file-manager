@@ -1,7 +1,7 @@
 import { createReadStream, createWriteStream } from 'fs';
 import fs from 'fs/promises';
 import { pipeline } from 'stream/promises';
-import { checkThatExist, checkThatNotExist } from '../helper.js';
+import { checkThatExist, checkThatNotExist } from '../helpers.js';
 import { MESSAGES } from '../messages.js';
 
 const copyFile = async (pathToOldFile, pathToNewFile) => {
