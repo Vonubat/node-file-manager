@@ -51,7 +51,7 @@ export class App {
   }
 
   async hash([src]) {
-    const pathToFile = this._resolvePath([src]);
+    const pathToFile = this._resolvePath(src);
     await hash(pathToFile);
   }
 
@@ -103,7 +103,7 @@ export class App {
           return true;
         }
 
-      case 'mw':
+      case 'mv':
       case 'cp':
       case 'compress':
       case 'decompress':

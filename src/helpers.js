@@ -9,7 +9,7 @@ export const parseInput = (input) => {
     args = args
       .join(' ')
       .split(quotesRegExp)
-      .map((arg) => arg.replase(quoteRegExp, ''));
+      .map((arg) => arg.replace(quoteRegExp, ''));
   }
   return args;
 };
@@ -26,15 +26,15 @@ const isExist = async (path) => {
 export const checkThatExist = async (path) => {
   try {
     return await fs.stat(path);
-  } catch (error) {
-    throw new Error(error);
+  } catch {
+    throw new Error(`File doesn't exist, but should`);
   }
 };
 
 export const checkThatNotExist = async (path) => {
   const isFileExist = await isExist(path);
   if (isFileExist) {
-    throw new Error('File exists');
+    throw new Error(`File exists, but shouldn't`);
   }
 };
 
