@@ -81,4 +81,48 @@ export class App {
     const pathToDest = this._resolvePath(args[1]);
     await brotli.decompress(pathToSrc, pathToDest);
   }
+
+  ['.exit']() {
+    process.exit();
+  }
+
+  validate(command, args) {
+    switch (command) {
+      case 'up':
+      case 'ls':
+      case '.exit':
+        return true;
+
+      case 'cd':
+      case 'cat':
+      case 'rm':
+      case 'os':
+      case 'hash':
+      case 'cat':
+        if (args[0]) {
+          return true;
+        }
+
+      case 'mw':
+      case 'cp':
+      case 'compress':
+      case 'decompress':
+        if (args[0] && args[1]) {
+          return true;
+        }
+
+      case 'add':
+        if (args[0] && isPathToFile(args[0])) {
+          return true;
+        }
+
+      case 'rn':
+        if (args[0] && args[1] && isPathToFile(args[1])) {
+          return true;
+        }
+
+      default:
+        return false;
+    }
+  }
 }
